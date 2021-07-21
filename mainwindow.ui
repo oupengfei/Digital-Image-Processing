@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>220</y>
+      <width>201</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFiles">
+    <property name="title">
+     <string>Files</string>
+    </property>
+    <addaction name="actionopen"/>
+    <addaction name="actionsave"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="menuFiltering">
+     <property name="title">
+      <string>Filtering</string>
+     </property>
+     <addaction name="actionMean"/>
+     <addaction name="actionMedian"/>
+     <addaction name="action_Gaussian"/>
+    </widget>
+    <widget class="QMenu" name="menuEdge_Extraction">
+     <property name="title">
+      <string>Edge Extract</string>
+     </property>
+     <addaction name="actionRobert"/>
+     <addaction name="actionSobel"/>
+     <addaction name="actionPrewitt"/>
+     <addaction name="actionLOG"/>
+    </widget>
+    <widget class="QMenu" name="menuFrequency_Enhance">
+     <property name="title">
+      <string>Frequency Enhance</string>
+     </property>
+     <addaction name="actionLowpass"/>
+     <addaction name="actionHighpass"/>
+    </widget>
+    <addaction name="actionf1"/>
+    <addaction name="menuFiltering"/>
+    <addaction name="menuEdge_Extraction"/>
+    <addaction name="menuFrequency_Enhance"/>
+    <addaction name="actionf5"/>
+   </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="actionVersion"/>
+    <addaction name="actionGuide"/>
+   </widget>
+   <addaction name="menuFiles"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuAbout"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionopen">
+   <property name="icon">
+    <iconset>
+     <normaloff>ico/添加新的样本盒.png</normaloff>ico/添加新的样本盒.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionsave">
+   <property name="icon">
+    <iconset>
+     <normaloff>ico/save.png</normaloff>ico/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionf1">
+   <property name="text">
+    <string>Grey</string>
+   </property>
+  </action>
+  <action name="actionf5">
+   <property name="text">
+    <string>SIFT</string>
+   </property>
+  </action>
+  <action name="actionMean">
+   <property name="text">
+    <string>Mean</string>
+   </property>
+  </action>
+  <action name="actionMedian">
+   <property name="text">
+    <string>Median</string>
+   </property>
+  </action>
+  <action name="action_Gaussian">
+   <property name="text">
+    <string>Gaussian</string>
+   </property>
+  </action>
+  <action name="actionRobert">
+   <property name="text">
+    <string>Robert</string>
+   </property>
+  </action>
+  <action name="actionSobel">
+   <property name="text">
+    <string>Sobel</string>
+   </property>
+  </action>
+  <action name="actionPrewitt">
+   <property name="text">
+    <string>Prewitt</string>
+   </property>
+  </action>
+  <action name="actionLOG">
+   <property name="text">
+    <string>LOG</string>
+   </property>
+  </action>
+  <action name="actionLowpass">
+   <property name="text">
+    <string>Lowpass</string>
+   </property>
+  </action>
+  <action name="actionHighpass">
+   <property name="text">
+    <string>Highpass</string>
+   </property>
+  </action>
+  <action name="actionVersion">
+   <property name="icon">
+    <iconset>
+     <normaloff>ico/VersionManagement.png</normaloff>ico/VersionManagement.png</iconset>
+   </property>
+   <property name="text">
+    <string>Version</string>
+   </property>
+  </action>
+  <action name="actionGuide">
+   <property name="icon">
+    <iconset>
+     <normaloff>ico/help.png</normaloff>ico/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>Guide</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
