@@ -39,3 +39,5 @@ DISTFILES += \
 
 RESOURCES += \
     ico.qrc
+
+RC_FILE += logo.rc
