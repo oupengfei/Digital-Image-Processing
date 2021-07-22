@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QPixmap>
 #include <QDebug>
+#include <QDateTime>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -20,10 +21,9 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_actionopen_triggered()
+void MainWindow::on_actionopen_triggered()//点击open之后的动作
 {
-
-    //connect(this,SIGNAL(send()),imageprocessing,SLOT(recvData()));
+    //打开文件对话框，选择文件
     QString filename = QFileDialog::getOpenFileName(this,
                                                             "please choose a picture",
                                                             "F:",
@@ -36,9 +36,11 @@ void MainWindow::on_actionopen_triggered()
 
      else
      {
+        //将图像加载到img1中
         QImage* img1=new QImage;
-        bool isexit = img1->load(filename);
 
+        bool isexit = img1->load(filename);
+        //定义ImageProcessing类对象imageprocessing，用img1初始化
         imageprocessing = new ImageProcessing(img1);
 
 
@@ -50,38 +52,35 @@ void MainWindow::on_actionopen_triggered()
             delete img1;
             return;
         }
+
+
+        //获取图像储存并存入对象中的变量中
         imageprocessing->imgwidth = imageprocessing->img.width();
         imageprocessing->imgheight = imageprocessing->img.height();
-
+        //获取灰度图像并存储到对象中的变量中
         imageprocessing->imggrey = imageprocessing->img2grey(imageprocessing->img);
+
+        //获取一维灰度数组并存入对象变量
         imageprocessing->greyQVecter.resize(imageprocessing->img.width() * imageprocessing->img.height());
 
-        qDebug()<<"greyQVecter-count:";
-        qDebug()<<imageprocessing->greyQVecter.count();
-
-
         imageprocessing->greyQVecter = imageprocessing->img2greyQVecter(imageprocessing->img);
-        qDebug()<<"greyQVecter-test:";
-        qDebug()<<imageprocessing->greyQVecter[100];
 
+
+        //重新设置窗口的大小，适应图片大小
         resize(imageprocessing->img.width()+20, imageprocessing->img.height() +
                frameGeometry().height() - geometry().height()+20);
+
         ui->label->setGeometry(10,10,imageprocessing->img.width(), imageprocessing->img.height());
         //ui->label->setPixmap(QPixmap::fromImage(*imageprocessing->img));
         /*imageprocessing->imgpro = imageprocessing->greyQVecter2img(imageprocessing->greyQVecter,
                                                                    imageprocessing->img->width(),
                                                                    imageprocessing->img->height());*/
-
+        //加载图像到窗口
         ui->label->setPixmap(QPixmap::fromImage(imageprocessing->img));
-
-
-
-
-
-
-
-
+        //设置图像加载成功位
         this->isimgloaded = true;
+        QMessageBox::information(NULL, "Open", "Image loaded");
+        qDebug()<<"The image is loaded successfully and the size is obtained. The gray image and one dimensional gray image array are generated";
 
       }
 }
@@ -99,7 +98,7 @@ void MainWindow::on_actionf1_triggered()//计算图片的灰度直方图
 
     else
     {
-       qDebug()<<"no image loaded";
+       QMessageBox::warning(NULL, "Warning", "No image is loaded");
     }
 
 
@@ -116,7 +115,7 @@ void MainWindow::on_actionMean_triggered()//均值滤波
 
     else
     {
-       qDebug()<<"no image loaded";
+       QMessageBox::warning(NULL, "Warning", "No image is loaded");
     }
 
 }
@@ -132,7 +131,7 @@ void MainWindow::on_actionMedian_triggered()//中值滤波
 
     else
     {
-       qDebug()<<"no image loaded";
+       QMessageBox::warning(NULL, "Warning", "No image is loaded");
     }
 }
 
@@ -147,7 +146,7 @@ void MainWindow::on_action_Gaussian_triggered()//高斯滤波
 
     else
     {
-       qDebug()<<"no image loaded";
+       QMessageBox::warning(NULL, "Warning", "No image is loaded");
     }
 }
 
@@ -162,7 +161,7 @@ void MainWindow::on_actionRobert_triggered()
 
     else
     {
-       qDebug()<<"no image loaded";
+       QMessageBox::warning(NULL, "Warning", "No image is loaded");
     }
 }
 
@@ -177,7 +176,7 @@ void MainWindow::on_actionSobel_triggered()
 
         else
         {
-           qDebug()<<"no image loaded";
+           QMessageBox::warning(NULL, "Warning", "No image is loaded");
         }
 }
 
@@ -192,7 +191,7 @@ void MainWindow::on_actionPrewitt_triggered()
 
         else
         {
-           qDebug()<<"no image loaded";
+           QMessageBox::warning(NULL, "Warning", "No image is loaded");
         }
 }
 
@@ -207,7 +206,7 @@ void MainWindow::on_actionLOG_triggered()
 
         else
         {
-           qDebug()<<"no image loaded";
+           QMessageBox::warning(NULL, "Warning", "No image is loaded");
         }
 }
 
@@ -222,7 +221,7 @@ void MainWindow::on_actionLowpass_triggered()
 
         else
         {
-           qDebug()<<"no image loaded";
+           QMessageBox::warning(NULL, "Warning", "No image is loaded");
         }
 }
 
@@ -237,7 +236,7 @@ void MainWindow::on_actionHighpass_triggered()
 
         else
         {
-           qDebug()<<"no image loaded";
+           QMessageBox::warning(NULL, "Warning", "No image is loaded");
         }
 }
 
@@ -245,12 +244,31 @@ void MainWindow::on_actionsave_triggered()
 {
     if(this->isimgloaded)
         {
-            imageprocessing->img = imageprocessing->imgpro;
+            QString filePath = QFileDialog::getExistingDirectory(this, "Please choose a path ... ", "./");
+            QDateTime time = QDateTime::currentDateTime();   //获取当前时间
+            int timeT = time.toTime_t();   //将当前时间转为时间戳
+
+            filePath.append("/ImageProcessed-").append(filePath.number(timeT)).append(".jpg");
+            qDebug()<<filePath;
+            imageprocessing->imgpro.save(filePath, "JPG", 100);
+            QMessageBox::information(NULL, "Save", "Image saved");
+            //imageprocessing->img = imageprocessing->imgpro;
 
         }
 
         else
         {
-           qDebug()<<"no image loaded";
+           QMessageBox::warning(NULL, "Warning", "No image is loaded");
         }
+}
+
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMessageBox::about(NULL, "About", "Digital image processing, written by Qt5.12\n20216149-Ou Pengfei");
+}
+
+void MainWindow::on_actionHelp_triggered()
+{
+    QMessageBox::about(NULL, "Help", "Too easy to help");
 }

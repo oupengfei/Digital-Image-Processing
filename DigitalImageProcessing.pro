@@ -30,4 +30,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 win32: LIBS += -L$$PWD/./ -llibfftw3-3 -llibfftw3f-3 -llibfftw3l-3
 
 DISTFILES += \
-    ico/about.png
+    ico/VersionManagement.png \
+    ico/about.png \
+    ico/add_fridge.png \
+    ico/help.png \
+    ico/save.png \
+    ico/添加新的样本盒.png
+
+RESOURCES += \
+    ico.qrc

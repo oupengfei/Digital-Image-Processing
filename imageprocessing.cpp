@@ -3,29 +3,25 @@
 
 ImageProcessing::ImageProcessing(QImage *img0)
 {
-    this->img = *img0;
-    this->imgpro = *img0;
+    this->img = *img0;//将待处理图像存储到类的QImage中
+    this->imgpro = *img0;//初始化处理之后的图像
+    //qDebug()<<"待处理图像加载完毕...";
 
-    //this->imggrey = this->img2grey(*img0);
-    qDebug()<<"ImageProcessing-imggrey";
-
-
-
-    //qDebug()<<"ImageProcessing-imggrey";
-    qDebug()<<"ImageProcessing-img";
+    /*qDebug()<<"ImageProcessing-img";
     qDebug()<<this->img.bitPlaneCount();
     qDebug()<<"ImageProcessing-imgpro";
-    qDebug()<<this->imgpro.bitPlaneCount();
+    qDebug()<<this->imgpro.bitPlaneCount();*/
 
 }
 
-char ImageProcessing::mediansort(QVector<char> &sort)
+char ImageProcessing::mediansort(QVector<char> &sort)//寻找数组中间值，输入数组中元素个数应为奇数
 {
+    //冒泡法排序
     for(int i = 0 ; i<sort.count() - 1 ; i++)
     {
         for (int j = 0; j<sort.count() - 1 - i; j++)
         {
-            if (sort[j]>sort[j + 1]) // 这里是从小到大排序，如果是从大到小排序，只需将“>”换成“<”
+            if (sort[j]>sort[j + 1]) // 从小到大排序，从大到小排序需将“>”换成“<”
             {
                 char temp;
                 temp = sort[j];
@@ -35,11 +31,17 @@ char ImageProcessing::mediansort(QVector<char> &sort)
 
         }
     }
-    return sort[(sort.count() - 1)/2];
+    return sort[(sort.count() - 1)/2];//返回中值
 
 }
 
-QImage ImageProcessing::greyQVecter2img(QVector<char> greyvecter , int width , int height)
+QImage ImageProcessing::greyQVecter2img(QVector<char> greyvecter , int width , int height)//将一维数组转换成QImage
+//输入：
+//      greyvecter  一维灰度图像数组
+//      width       输出图像宽度
+//      height      输出图像高度
+//输出：
+//      QImage对象
 {
     qDebug()<<"greyQVecter2img";
     //QImage gray = this->img->convertToFormat(QImage::Format_Grayscale8);
@@ -50,24 +52,28 @@ QImage ImageProcessing::greyQVecter2img(QVector<char> greyvecter , int width , i
 
         for (int j=0;j<width;j++)
         {
-
             graydata[i*bytePerLine+j*3]  =greyvecter[this->index(i,j)];
             graydata[i*bytePerLine+j*3+1]=greyvecter[this->index(i,j)];
             graydata[i*bytePerLine+j*3+2]=greyvecter[this->index(i,j)];
-            //data+=4;
         }
     }
     return QImage(graydata, width, height, bytePerLine, QImage::Format_RGB888);
 
 }
 
-int ImageProcessing::index(int iheight , int iwidth)
+int ImageProcessing::index(int iheight , int iwidth)//二维坐标转一维线性下标
+//转化顺序为从左到右，从上到下
 {
     return iheight * this->img.width() + iwidth;
 
 }
 
-QVector<char> ImageProcessing::img2greyQVecter(QImage &img)
+QVector<char> ImageProcessing::img2greyQVecter(QImage &img)//图像转一维灰度数组
+//转化顺序为从左到右，从上到下
+//输入：
+//      img     待处理图像
+//输出：
+//      QVector<char>   一维灰度数组
 {
     qDebug()<<"img2greyQVecter";
     //QImage gray = this->img->convertToFormat(QImage::Format_Grayscale8);
@@ -102,7 +108,7 @@ QVector<char> ImageProcessing::img2greyQVecter(QImage &img)
 
 }
 
-QImage ImageProcessing::img2grey(QImage &img)
+QImage ImageProcessing::img2grey(QImage &img)//彩色图像转灰度图像
 {
     qDebug()<<"grey";
     //QImage gray = this->img->convertToFormat(QImage::Format_Grayscale8);
@@ -138,8 +144,8 @@ QImage ImageProcessing::img2grey(QImage &img)
 
 void ImageProcessing::calculateHistograms()
 {
-    /*qDebug()<<"grey";
-    //QImage gray = this->img->convertToFormat(QImage::Format_Grayscale8);
+    qDebug()<<"grey";
+    /*QImage gray = this->img->convertToFormat(QImage::Format_Grayscale8);
 
     int iwidget = this->img->width();//图像宽
     int iheight = this->img->height();//图像高
@@ -172,14 +178,16 @@ void ImageProcessing::calculateHistograms()
 
 }
 
-void ImageProcessing::meanFiltering()
+void ImageProcessing::meanFiltering()//均值滤波,3*3
+//直接处理类中的greyQVecter
 {
     qDebug()<<"meanFiltering";
+    //定义模板
     QVector<double> k{0.11111111112,0.1111111111,0.11111111112,
                          0.11111111112,0.1111111111,0.11111111112,
                          0.1111111111,0.11111111112,0.1111111111} ;
-    QVector<char> imgfed(this->imgheight * this->imgwidth);
-    imgfed = this->greyQVecter;
+    QVector<char> imgfed(this->imgheight * this->imgwidth);//存储处理后数据
+    imgfed = this->greyQVecter;//初始化
 
 
     for(int i=1;i<this->imgheight-1;i++)
@@ -207,20 +215,22 @@ void ImageProcessing::meanFiltering()
 
 }
 
-void ImageProcessing::medianFiltering()
+void ImageProcessing::medianFiltering()//中值滤波，3*3
+//直接处理类中的greyQVecter
 {
     qDebug()<<"medianFiltering";
 
     QVector<char> imgfed(this->imgheight * this->imgwidth);
     imgfed = this->greyQVecter;
-    QVector<char> sort(9);
 
+    QVector<char> sort(9);//存储9个像素点的数组
 
     for(int i=1;i<this->imgheight-1;i++)
     {
 
         for (int j=1;j<this->imgwidth-1;j++)
         {
+            //像素点数组赋值
             sort[0] = this->greyQVecter[this->index(i-1,j-1)];
             sort[1] = this->greyQVecter[this->index(i-1,j)];
             sort[2] = this->greyQVecter[this->index(i-1,j+1)];
@@ -231,7 +241,7 @@ void ImageProcessing::medianFiltering()
             sort[7] = this->greyQVecter[this->index(i+1,j)];
             sort[8] = this->greyQVecter[this->index(i+1,j+1)];
 
-            imgfed[this->index(i,j)] = mediansort(sort);
+            imgfed[this->index(i,j)] = mediansort(sort);//寻找中值，调用median函数
 
         }
     }
@@ -240,14 +250,15 @@ void ImageProcessing::medianFiltering()
     this->imgpro = this->greyQVecter2img(imgfed,this->imgwidth,this->imgheight);
 
 }
-void ImageProcessing::gaussianFiltering()
+void ImageProcessing::gaussianFiltering()//高斯滤波
+//直接处理类中的greyQVecter
 {
     qDebug()<<"gaussianFiltering";
     QVector<double> k{0.0625,0.125,0.0625,
                          0.125,0.25,0.125,
-                         0.0625,0.125,0.0625} ;
-    QVector<char> imgfed(this->imgheight * this->imgwidth);
-    imgfed = this->greyQVecter;
+                         0.0625,0.125,0.0625} ;//定义模板
+    QVector<char> imgfed(this->imgheight * this->imgwidth);//存储处理后数据
+    imgfed = this->greyQVecter;//初始化
 
 
     for(int i=1;i<this->imgheight-1;i++)
@@ -276,9 +287,11 @@ void ImageProcessing::gaussianFiltering()
 
 }
 
-void ImageProcessing::robertEdgeExtract()
+void ImageProcessing::robertEdgeExtract()//robert边缘提取
+//直接处理类中的greyQVecter
 {
     qDebug()<<"robertEdgeExtract";
+    //定义模板，有x，y两个方向
     QVector<double> k1{-1,0,0,1} ;
     QVector<double> k2{0,-1,1,0} ;
     QVector<char> imgfed(this->imgheight * this->imgwidth);
@@ -308,9 +321,11 @@ void ImageProcessing::robertEdgeExtract()
 
 }
 
-void ImageProcessing::sobelEdgeExtract()
+void ImageProcessing::sobelEdgeExtract()//sobel边缘提取
+//直接处理类中的greyQVecter
 {
     qDebug()<<"robertEdgeExtract";
+    //定义模板，有x，y两个方向
     QVector<double> k1{-1,0,1,
                        -1,0,1,
                        -1,0,1} ;
@@ -354,9 +369,11 @@ void ImageProcessing::sobelEdgeExtract()
 
 }
 
-void ImageProcessing::prewittEdgeExtract()
+void ImageProcessing::prewittEdgeExtract()//prewitt边缘提取
+//直接处理类中的greyQVecter
 {
     qDebug()<<"prewittEdgeExtract";
+    //定义模板，有x，y两个方向
     QVector<double> k1{-1,0,1,
                        -2,0,2,
                        -1,0,1} ;
@@ -399,9 +416,11 @@ void ImageProcessing::prewittEdgeExtract()
 
 }
 
-void ImageProcessing::logEdgeExtract()
+void ImageProcessing::logEdgeExtract()//log边缘提取
+//直接处理类中的greyQVecter
 {
     qDebug()<<"logEdgeExtract";
+    //定义处理模板
     QVector<double> k{-1,-1,-1,
                       -1,8,-1,
                       -1,-1,-1} ;
@@ -424,8 +443,6 @@ void ImageProcessing::logEdgeExtract()
                                         this->greyQVecter[this->index(i+1,j-1)] * k[6] +
                                         this->greyQVecter[this->index(i+1,j)] * k[7] +
                                         this->greyQVecter[this->index(i+1,j+1)] * k[8];
-
-
         }
     }
 

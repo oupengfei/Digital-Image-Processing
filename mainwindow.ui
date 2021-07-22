@@ -17,14 +17,18 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Digital Image Processing</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="ico.qrc">
+    <normaloff>:/image/ico/dip.ico</normaloff>:/image/ico/dip.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>590</x>
-      <y>220</y>
+      <x>10</x>
+      <y>20</y>
       <width>201</width>
       <height>81</height>
      </rect>
@@ -88,46 +92,46 @@
     <addaction name="menuFiltering"/>
     <addaction name="menuEdge_Extraction"/>
     <addaction name="menuFrequency_Enhance"/>
-    <addaction name="actionf5"/>
    </widget>
-   <widget class="QMenu" name="menuAbout">
+   <widget class="QMenu" name="menuOthers">
     <property name="title">
-     <string>About</string>
+     <string>Others</string>
     </property>
-    <addaction name="actionVersion"/>
-    <addaction name="actionGuide"/>
+    <addaction name="actionAbout"/>
+    <addaction name="actionHelp"/>
    </widget>
    <addaction name="menuFiles"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuAbout"/>
+   <addaction name="menuOthers"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionopen">
    <property name="icon">
-    <iconset>
-     <normaloff>ico/添加新的样本盒.png</normaloff>ico/添加新的样本盒.png</iconset>
+    <iconset resource="ico.qrc">
+     <normaloff>:/image/ico/open.png</normaloff>:/image/ico/open.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionsave">
    <property name="icon">
-    <iconset>
-     <normaloff>ico/save.png</normaloff>ico/save.png</iconset>
+    <iconset resource="ico.qrc">
+     <normaloff>:/image/ico/save.png</normaloff>:/image/ico/save.png</iconset>
    </property>
    <property name="text">
     <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionf1">
    <property name="text">
     <string>Grey</string>
-   </property>
-  </action>
-  <action name="actionf5">
-   <property name="text">
-    <string>SIFT</string>
    </property>
   </action>
   <action name="actionMean">
@@ -175,25 +179,31 @@
     <string>Highpass</string>
    </property>
   </action>
-  <action name="actionVersion">
+  <action name="actionAbout">
    <property name="icon">
-    <iconset>
-     <normaloff>ico/VersionManagement.png</normaloff>ico/VersionManagement.png</iconset>
+    <iconset resource="ico.qrc">
+     <normaloff>:/image/ico/about.png</normaloff>:/image/ico/about.png</iconset>
    </property>
    <property name="text">
-    <string>Version</string>
+    <string>About</string>
    </property>
   </action>
-  <action name="actionGuide">
+  <action name="actionHelp">
    <property name="icon">
     <iconset>
-     <normaloff>ico/help.png</normaloff>ico/help.png</iconset>
+     <normaloff>ico/help.png</normaloff>
+     <normalon>:/image/ico/help.png</normalon>ico/help.png</iconset>
    </property>
    <property name="text">
-    <string>Guide</string>
+    <string>Help</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="ico.qrc"/>
+ </resources>
  <connections/>
 </ui>
